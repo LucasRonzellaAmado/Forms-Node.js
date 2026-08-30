@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <meta
+        name="description"
+        content="Entenda sua Bexiga - avaliação urinária"
+    >
+
+    <title>Ficha de Avaliação Pré Teleatendimento</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app">
+
+    <div class="top-decoration"></div>
+
+    <img
+        src="img/logo-fam.png"
+        alt="Logomarca FAM - Faculdade de Americana"
+        class="brand-logo-fixed"
+    >
+
+    <!-- =========================
+         TELA INICIAL
+    ========================= -->
+
+    <section
+        id="welcomeScreen"
+        class="screen active"
+    >
+        <div class="container">
+
+            <div class="welcome-card">
+
+                <div class="water-icon" aria-hidden="true">
+                    💧
+                </div>
+
+                <h1>
+                    Ficha de Avaliação Pré Teleatendimento
+                </h1>
+
+                <p class="welcome-subtitle">
+                    Incontinência urinária
+                </p>
+
+                <p class="intro">
+                    Vamos conversar sobre seus sintomas urinários
+                    de um jeito simples e acolhedor. São algumas
+                    perguntas rápidas para ajudar a organizar o
+                    que você sente no dia a dia.
+                </p>
+
+                <div class="welcome-info">
+                    <span class="info-pill">
+                        ⏱️ Aproximadamente 5 minutos
+                    </span>
+
+                    <span class="info-pill">
+                        💚 Não existem respostas certas ou erradas
+                    </span>
+                </div>
+
+                <button
+                    id="startButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    Começar avaliação
+                </button>
+
+                <p class="privacy-note">
+                    Suas respostas ficam nesta sessão do navegador
+                    e não são enviadas para um servidor nesta versão.
+                </p>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- =========================
+         QUESTIONÁRIO
+    ========================= -->
+
+    <section
+        id="quizScreen"
+        class="screen"
+    >
+
+        <header class="quiz-header">
+
+            <div class="quiz-top">
+
+                <span
+                    id="questionCounter"
+                    class="question-counter"
+                >
+                    Pergunta 1 de 1
+                </span>
+
+            </div>
+
+            <div
+                class="progress-container"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow="0"
+            >
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                ></div>
+            </div>
+
+        </header>
+
+
+        <main class="quiz-main">
+
+            <div
+                id="questionCard"
+                class="question-card"
+            >
+
+                <div
+                    id="sectionLabel"
+                    class="section-label"
+                >
+                    Sobre você
+                </div>
+
+                <h2 id="questionTitle"></h2>
+
+                <p
+                    id="questionHelp"
+                    class="question-help"
+                ></p>
+
+                <div
+                    id="questionInput"
+                    class="input-group"
+                ></div>
+
+                <div
+                    id="errorMessage"
+                    class="error-message"
+                    role="alert"
+                ></div>
+
+            </div>
+
+        </main>
+
+
+        <footer class="quiz-footer">
+
+            <div class="footer-inner">
+
+                <button
+                    id="backButton"
+                    class="secondary-button"
+                    type="button"
+                >
+                    ← Voltar
+                </button>
+
+                <button
+                    id="continueButton"
+                    class="primary-button"
+                    type="button"
+                    disabled
+                >
+                    Continuar →
+                </button>
+
+            </div>
+
+        </footer>
+
+    </section>
+
+
+    <!-- =========================
+         RESUMO
+    ========================= -->
+
+    <section
+        id="summaryScreen"
+        class="screen"
+    >
+
+        <div class="container">
+
+            <div class="summary-card">
+
+                <div
+                    class="success-icon"
+                    aria-hidden="true"
+                >
+                    ✓
+                </div>
+
+                <h1>
+                    Avaliação concluída 💚
+                </h1>
+
+                <p
+                    id="summaryGreeting"
+                    class="summary-intro"
+                ></p>
+
+                <div
+                    id="submissionStatus"
+                    class="submission-status"
+                >
+                    ✓ Avaliação enviada com sucesso.
+                </div>
+
+                <div
+                    id="summaryContent"
+                ></div>
+
+                <div
+                    id="alertBox"
+                    class="alert-box"
+                    style="display:none;"
+                >
+                    <strong>
+                        🩺 Vale conversar com um profissional de saúde.
+                    </strong>
+
+                    Algumas das respostas informadas indicam que pode
+                    ser importante conversar com um profissional de
+                    saúde para avaliar seus sintomas.
+                </div>
+
+                <button
+                    id="restartButton"
+                    class="primary-button"
+                    type="button"
+                >
+                    Refazer avaliação
+                </button>
+
+                <p class="privacy-note">
+                    Este resumo organiza as informações que você contou
+                    e não representa um diagnóstico.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- =========================
+     LOADING
+========================= -->
+
+<div
+    id="loadingOverlay"
+    class="loading-overlay"
+    aria-hidden="true"
+>
+    <div class="loading-card">
+
+        <div class="spinner"></div>
+
+        <h3>
+            Enviando sua avaliação
+        </h3>
+
+        <p>
+            Aguarde um instante...
+        </p>
+
+    </div>
+</div>
+
+<script src="js/app.js"></script>
+
+</body>
+</html>

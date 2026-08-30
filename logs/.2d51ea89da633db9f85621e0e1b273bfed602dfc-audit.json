@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\Lucas Amado\\Documents\\entenda-sua-bexiga-nodejs (1)\\logs\\.2d51ea89da633db9f85621e0e1b273bfed602dfc-audit.json",
+    "files": [
+        {
+            "date": 1788124582246,
+            "name": "C:\\Users\\Lucas Amado\\Documents\\entenda-sua-bexiga-nodejs (1)\\logs\\error-2026-08-30.log",
+            "hash": "52cb83978cf256caf513c11b4755ef687dd6d814f1c35812d2f3e00b9285f646"
+        }
+    ],
+    "hashType": "sha256"
+}

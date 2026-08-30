@@ -1,0 +1,46 @@
+# ============================================================
+# RENDER.YAML - Blueprint de deploy (render.com)
+# ============================================================
+#
+# Isso permite conectar o repositorio do GitHub no Render e ele
+# ja configurar o servico sozinho (build, start, variaveis).
+#
+# Como usar:
+#   1. Suba este projeto para um repositorio no GitHub.
+#   2. Va em https://dashboard.render.com/ -> New -> Blueprint.
+#   3. Selecione o repositorio. O Render le este arquivo e
+#      configura tudo automaticamente.
+#   4. Preencha as variaveis marcadas como "sync: false" na tela
+#      do Render (elas ficam de fora do repositorio por
+#      seguranca - nunca commitamos segredos).
+#   5. Ao final, o Render te da uma URL publica, algo como:
+#      https://entenda-sua-bexiga.onrender.com
+#
+# Se preferir configurar manualmente pelo painel (sem Blueprint),
+# veja o passo a passo no README.md, secao "Deploy em produção".
+# ============================================================
+
+services:
+  - type: web
+    name: entenda-sua-bexiga
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+      - key: EXCEL_FILE_NAME
+        value: avaliacoes-backup.xlsx
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: RATE_LIMIT_WINDOW_MINUTES
+        value: "15"
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: "60"
+      - key: GOOGLE_APPS_SCRIPT_URL
+        sync: false

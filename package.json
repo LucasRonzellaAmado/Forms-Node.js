@@ -1,0 +1,29 @@
+{
+  "name": "entenda-sua-bexiga",
+  "version": "1.0.0",
+  "description": "Avaliacao urinaria - Clinica de Fisioterapia FAM. Formulario web (Node.js/Express) que grava as respostas em uma planilha do Google Sheets (online), com backup local em Excel.",
+  "main": "src/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "winston": "^3.14.2",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
