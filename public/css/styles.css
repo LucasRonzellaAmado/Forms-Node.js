@@ -409,6 +409,41 @@
             box-shadow: 0 0 0 4px rgba(21, 154, 145, 0.10);
         }
 
+                .address-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .address-field {
+            grid-column: span 6;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .address-field-small {
+            grid-column: span 3;
+        }
+
+        .address-field .other-label {
+            margin: 0;
+        }
+
+        .address-status {
+            margin-top: 10px;
+            min-height: 18px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 600px) {
+            .address-field-small {
+                grid-column: span 6;
+            }
+        }
+
         .options {
             display: grid;
             gap: 12px;
