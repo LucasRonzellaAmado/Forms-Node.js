@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\Users\\Lucas Amado\\Documents\\faculdade\\Gaby\\Ficha Avaliacao Xixi\\logs\\.1e33a8f5a5b1aef97dc5bcb646541accc190e5e6-audit.json",
+    "files": [
+        {
+            "date": 1791152012720,
+            "name": "C:\\Users\\Lucas Amado\\Documents\\faculdade\\Gaby\\Ficha Avaliacao Xixi\\logs\\combined-2026-10-04.log",
+            "hash": "53eec06924041c00f1492a163d7fd2027adc13c1eee014cac199690b3b38270b"
+        }
+    ],
+    "hashType": "sha256"
+}

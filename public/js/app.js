@@ -114,20 +114,12 @@ const questions = [
     },
 
     {
-        id: "city",
+        id: "address",
         section: "Sobre você",
-        title: "Em qual cidade você mora?",
-        type: "single",
-        required: true,
-        options: [
-            "Americana",
-            "Santa Bárbara d'Oeste",
-            "Nova Odessa",
-            "Outro"
-        ],
-        other: true,
-        otherId: "cityOther",
-        otherLabel: "Especifique sua cidade"
+        title: "Qual é o seu endereço completo?",
+        help: "Digite o CEP para preencher rua, bairro e cidade automaticamente. Depois confira e complete o número.",
+        type: "address",
+        required: true
     },
 
     {
@@ -663,6 +655,11 @@ function renderInput(question) {
         return;
     }
 
+    if (question.type === "address") {
+        renderAddress(question);
+        return;
+    }
+
     if (
         question.type === "single" ||
         question.type === "multiple"
@@ -889,6 +886,123 @@ function renderDate(question) {
         },
         100
     );
+}
+
+
+function renderAddress(question) {
+
+    const fields = [
+        { key: "addressCep", label: "CEP", placeholder: "00000-000", required: true, inputmode: "numeric", maxlength: 9, size: "small" },
+        { key: "addressStreet", label: "Rua / Avenida", placeholder: "Nome da rua", required: true },
+        { key: "addressNumber", label: "Número", placeholder: "Ex.: 123", required: true, size: "small" },
+        { key: "addressComplement", label: "Complemento (opcional)", placeholder: "Apto, bloco, casa..." },
+        { key: "addressDistrict", label: "Bairro", placeholder: "Bairro", required: true },
+        { key: "addressCity", label: "Cidade", placeholder: "Cidade", required: true },
+        { key: "addressState", label: "UF", placeholder: "SP", required: true, maxlength: 2, size: "small" }
+    ];
+
+    const grid = document.createElement("div");
+    grid.className = "address-grid";
+
+    const inputs = {};
+    const status = document.createElement("div");
+    status.className = "address-status";
+
+    fields.forEach(function (field) {
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "address-field" + (field.size ? " address-field-" + field.size : "");
+
+        const label = document.createElement("label");
+        label.className = "other-label";
+        label.textContent = field.label;
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "text-input";
+        input.placeholder = field.placeholder;
+        input.autocomplete = "off";
+        input.value = answers[field.key] || "";
+
+        if (field.inputmode) { input.setAttribute("inputmode", field.inputmode); }
+        if (field.maxlength) { input.setAttribute("maxlength", String(field.maxlength)); }
+
+        input.addEventListener("input", function () {
+
+            if (field.key === "addressCep") {
+                const digits = input.value.replace(/\D/g, "").slice(0, 8);
+                input.value = digits.length > 5
+                    ? digits.slice(0, 5) + "-" + digits.slice(5)
+                    : digits;
+            }
+
+            if (field.key === "addressState") {
+                input.value = input.value.replace(/[^a-zA-Z]/g, "").toUpperCase();
+            }
+
+            answers[field.key] = input.value;
+
+            if (field.key === "addressCep" && input.value.replace(/\D/g, "").length === 8) {
+                lookupCep(input.value.replace(/\D/g, ""));
+            }
+
+            updateContinueButton();
+        });
+
+        inputs[field.key] = input;
+
+        label.htmlFor = "addr-" + field.key;
+        input.id = "addr-" + field.key;
+
+        wrapper.appendChild(label);
+        wrapper.appendChild(input);
+        grid.appendChild(wrapper);
+    });
+
+    // Busca gratuita de CEP (ViaCEP). Se falhar, a pessoa digita à mão.
+    async function lookupCep(cep) {
+
+        status.textContent = "Buscando endereço...";
+
+        try {
+
+            const response = await fetch("https://viacep.com.br/ws/" + cep + "/json/");
+            const data = await response.json();
+
+            if (data.erro) {
+                status.textContent = "CEP não encontrado. Preencha o endereço manualmente.";
+                return;
+            }
+
+            const map = {
+                addressStreet: data.logradouro,
+                addressDistrict: data.bairro,
+                addressCity: data.localidade,
+                addressState: data.uf
+            };
+
+            Object.keys(map).forEach(function (key) {
+                if (map[key]) {
+                    inputs[key].value = map[key];
+                    answers[key] = map[key];
+                }
+            });
+
+            status.textContent = "";
+
+            updateContinueButton();
+
+            (inputs.addressNumber).focus();
+
+        } catch (error) {
+            status.textContent = "Não foi possível buscar o CEP. Preencha manualmente.";
+        }
+    }
+
+    questionInput.appendChild(grid);
+    questionInput.appendChild(status);
+
+    setTimeout(function () { inputs.addressCep.focus(); }, 100);
 }
 
 
@@ -1280,6 +1394,21 @@ function isCurrentAnswerValid() {
         );
     }
 
+    if (question.type === "address") {
+
+        const cepDigits =
+            (answers.addressCep || "").replace(/\D/g, "");
+
+        return (
+            cepDigits.length === 8 &&
+            ["addressStreet", "addressNumber", "addressDistrict", "addressCity", "addressState"]
+                .every(function (key) {
+                    return (answers[key] || "").trim().length > 0;
+                }) &&
+            answers.addressState.trim().length === 2
+        );
+    }
+
     if (question.type === "single") {
 
         if (
@@ -1504,6 +1633,32 @@ function createAssessmentId() {
 }
 
 
+function buildFullAddress() {
+
+    const street = answers.addressStreet || "";
+    const number = answers.addressNumber || "";
+    const complement = answers.addressComplement || "";
+    const district = answers.addressDistrict || "";
+    const city = answers.addressCity || "";
+    const state = answers.addressState || "";
+    const cep = answers.addressCep || "";
+
+    if (!street && !city) {
+        return "";
+    }
+
+    return (
+        street +
+        (number ? ", " + number : "") +
+        (complement ? " - " + complement : "") +
+        (district ? " - " + district : "") +
+        (city ? ", " + city : "") +
+        (state ? "/" + state : "") +
+        (cep ? " - CEP " + cep : "")
+    );
+}
+
+
 function buildExcelData() {
 
     return {
@@ -1521,10 +1676,28 @@ function buildExcelData() {
             answers.birthDate || "",
 
         cidade:
-            valueWithOther(
-                answers.city,
-                answers.cityOther
-            ),
+            answers.addressCity || "",
+
+        cep:
+            answers.addressCep || "",
+
+        rua:
+            answers.addressStreet || "",
+
+        numero:
+            answers.addressNumber || "",
+
+        complemento:
+            answers.addressComplement || "",
+
+        bairro:
+            answers.addressDistrict || "",
+
+        uf:
+            answers.addressState || "",
+
+        enderecoCompleto:
+            buildFullAddress(),
 
         sexo:
             answers.sex || "",
@@ -1893,11 +2066,8 @@ function renderSummary() {
                 )
             },
             {
-                label: "Cidade",
-                value: valueWithOther(
-                    answers.city,
-                    answers.cityOther
-                )
+                label: "Endereço",
+                value: buildFullAddress()
             },
             {
                 label: "Sexo",
