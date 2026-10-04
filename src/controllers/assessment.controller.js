@@ -33,7 +33,14 @@ const EXPECTED_FIELDS = [
     "evitacao",
     "protecao",
     "dorArdencia",
-    "sangueUrina"
+    "sangueUrina",
+    "cep",
+    "rua",
+    "numero",
+    "complemento",
+    "bairro",
+    "uf",
+    "enderecoCompleto"
 ];
 
 function sanitizeValue(value) {
@@ -70,6 +77,7 @@ async function createAssessment(req, res, next) {
 
         const row = buildSanitizedRow(body);
 
+
         if (!row.id) {
             row.id = "AV-" + Date.now();
         }
@@ -104,6 +112,7 @@ async function createAssessment(req, res, next) {
             requestId,
             id: row.id,
             nome: row.nome,
+            endereco: row.enderecoCompleto,
             savedOnline
         });
 
