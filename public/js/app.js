@@ -131,7 +131,7 @@ const questions = [
         options: [
             "Masculino",
             "Feminino",
-            "Não especificado"
+            "Prefiro não informar"
         ]
     },
 
@@ -181,11 +181,11 @@ const questions = [
         options: [
             "Trabalhando (CLT ou funcionário público)",
             "Trabalhando por conta própria (autônomo / empresário / freelancer)",
-            "Desempregado(a) e à procura de emprego",
+            "Não estou trabalhando mas estou à procura de emprego",
+            "Não estou trabalhando e não estou à procura de emprego",
             "Estudante",
             "Aposentado(a) / Pensionista",
             "Responsável pelos cuidados da casa / do lar",
-            "Não estou trabalhando e não estou à procura de emprego",
             "Outro"
         ],
         other: true,
@@ -239,7 +239,6 @@ const questions = [
             "Redes sociais (Instagram, Facebook)",
             "Pesquisa no Google / Internet",
             "Cartazes, panfletos ou outdoors",
-            "Passei em frente à clínica",
             "Outro"
         ],
         other: true,
@@ -250,7 +249,7 @@ const questions = [
     {
         id: "availability",
         section: "Clínica de Fisioterapia FAM",
-        title: "Qual é a sua disponibilidade de horário para o teleatendimento?",
+        title: "Qual é a sua disponibilidade de horário para o teleatendimento (de segunda a sexta exceto feriados)?",
         help: "Selecione todos os horários em que está disponível.",
         type: "multiple",
         required: true,
@@ -264,7 +263,8 @@ const questions = [
             "14:00",
             "15:00",
             "16:00",
-            "17:00"
+            "17:00",
+            "18:00"
         ]
     },
 
@@ -282,6 +282,7 @@ const questions = [
             "Condição neurológica (AVC, Parkinson, esclerose múltipla etc.)",
             "Não tenho nenhuma dessas doenças",
             "Não sei informar",
+            "Condição músculo-esquelética (Hérnia de disco, artrose, inflamação de nervos e/ou tendões etc.)",
             "Outro"
         ],
         other: true,
@@ -299,7 +300,7 @@ const questions = [
         options: [
             "Nunca",
             "Às vezes",
-            "Frequentemente",
+            "Quase sempre",
             "Todos os dias"
         ]
     },
@@ -307,7 +308,7 @@ const questions = [
     {
         id: "coughSneeze",
         section: "Saúde urinária 💧",
-        title: "A perda acontece quando você tosse, espirra ou dá risada?",
+        title: "A perda acontece quando você tosse, espirra ou ri?",
         type: "single",
         required: true,
         condition: function () {
@@ -323,7 +324,7 @@ const questions = [
     {
         id: "effort",
         section: "Saúde urinária 💧",
-        title: "Acontece quando você corre, pula, levanta peso ou faz esforço?",
+        title: "Acontece quando você corre, pula, levanta peso ou faz outros esforços?",
         type: "single",
         required: true,
         condition: function () {
@@ -345,7 +346,7 @@ const questions = [
         options: [
             "Nunca",
             "Às vezes",
-            "Frequentemente",
+            "Quase sempre",
             "Todos os dias"
         ]
     },
@@ -362,7 +363,7 @@ const questions = [
         options: [
             "Nunca",
             "Às vezes",
-            "Frequentemente",
+            "Quase sempre",
             "Todos os dias"
         ]
     },
@@ -421,7 +422,7 @@ const questions = [
         options: [
             "Nunca",
             "Às vezes",
-            "Frequentemente",
+            "Quase sempre",
             "Sempre"
         ]
     },
@@ -435,7 +436,7 @@ const questions = [
         options: [
             "Não",
             "Às vezes",
-            "Frequentemente",
+            "Quase sempre",
             "Todos os dias"
         ]
     },
@@ -448,8 +449,8 @@ const questions = [
         required: true,
         options: [
             "Não",
-            "Às vezes",
-            "Frequentemente",
+            "Rara mente",
+            "Quase sempre",
             "Sempre"
         ]
     },
@@ -2237,7 +2238,7 @@ function updateAlert() {
         ) ||
         answers.blood === "Sim" ||
         (
-            answers.pain === "Frequentemente" ||
+            answers.pain === "Quase sempre" ||
             answers.pain === "Sempre"
         );
 
